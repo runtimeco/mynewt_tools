@@ -41,3 +41,6 @@ gpg2 --armor --output "$dstfile".asc --detach-sig "$dstfile"
     cd "$dir" &&
     gpg2 --print-md SHA512 "$filename" > "$filename".sha
 )
+
+# Verify signature.
+gpg2 --verify "$dstfile.asc" "$dstfile"
