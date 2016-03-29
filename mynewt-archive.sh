@@ -2,9 +2,20 @@
 
 set -e
 
+scriptname="$(basename "$0")"
+
 print_usage() {
-    echo "usage: $(basename "$0") <tagname> <dst-prefix>"
-    echo "  example: $(basename "$0")  mynewt_0_8_0_b2_tag ~/rel/apache-larva-0.8.0-incubating-b2"
+    cat <<-EOS
+usage: $scriptname <dst-prefix> <tag-name>
+
+  example:
+      $scriptname ~/rels/apache-newt-0.8.0-b2 mynewt_0_8_0_b2_tag
+  
+  creates the following files:
+      * ~/rels/apache-newt-0.8.0-b2.tgz
+      * ~/rels/apache-newt-0.8.0-b2.tgz.asc
+      * ~/rels/apache-newt-0.8.0-b2.tgz.sha
+EOS
 }
 
 usage_err() {
@@ -16,8 +27,8 @@ usage_err() {
     print_usage >&2
 }
 
-tagname=$1
-dstprefix=$2
+dstprefix=$1
+tagname=$2
 
 if [ "$tagname" = '' ] || [ "$dstprefix" = '' ]
 then
@@ -26,9 +37,11 @@ then
 fi
 
 dstfile="$dstprefix.tgz"
+dstdir="$(dirname "$dstprefix")"
 tarprefix=$(basename "$dstprefix")
 
 # Create tgz file.
+mkdir -p "$dstdir"
 git archive --format tgz --output "$dstfile" --prefix "$tarprefix"/ "$tagname"
 
 # Create ASCII armored detached signature.
