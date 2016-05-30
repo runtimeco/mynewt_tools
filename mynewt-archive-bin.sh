@@ -59,7 +59,7 @@ done
 
 # Create tgz file.
 mkdir -p "$dstdir"
-tar -C "$workdir" -czvhf "$tgzpath" "$dstroot"
+tar -C "$workdir" -h -czvf "$tgzpath" "$dstroot"
 
 # Delete temp directory.
 rm -r "$workdir"
