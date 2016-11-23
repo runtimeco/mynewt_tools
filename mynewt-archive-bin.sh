@@ -54,7 +54,7 @@ do
         usage_err "File not found: $binfile"
     fi
 
-    ln -s "$binfile" "$workchild"
+    ln -s "$(realpath "$binfile")" "$workchild"
 done
 
 # Create tgz file.
